@@ -16,6 +16,7 @@ public class _02_GuestBook implements MouseListener{
 		JButton add = new JButton("Add Name");
 		JButton view = new JButton("View Names");
 		ArrayList<String> GuestList = new ArrayList<String>();
+		String viewN;
 		
 	public static void main(String[] args) {
 		_02_GuestBook gb = new _02_GuestBook();
@@ -42,6 +43,7 @@ public class _02_GuestBook implements MouseListener{
 		panel.add(view);
 		add.addMouseListener(this);
 		view.addMouseListener(this);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
 	}
@@ -58,10 +60,12 @@ public class _02_GuestBook implements MouseListener{
 		if(e.getComponent() == add) {
 		GuestList.add(JOptionPane.showInputDialog("Enter Guest Name"));
 		}else if(e.getComponent() == view) {
-		JOptionPane.showMessageDialog(null, GuestList);
+		viewN = "";
 		for (int i = 0; i < GuestList.size(); i++) {
-			System.out.println(GuestList.get(i));
+			int z = i+1;
+		viewN = viewN + "Guest #" + z + ": " + GuestList.get(i) + "\n";
 		}
+		JOptionPane.showMessageDialog(null, viewN);
 		}
 	}
 
