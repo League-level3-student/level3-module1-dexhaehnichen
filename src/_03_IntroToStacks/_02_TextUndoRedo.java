@@ -59,7 +59,9 @@ public class _02_TextUndoRedo implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		//System.out.println(e.getSource());
+		
 		if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+		
 			String s = "";
 			deletedChars.push((label.getText().charAt(label.getText().length()-1)));
 			System.out.println(deletedChars);
@@ -67,6 +69,7 @@ public class _02_TextUndoRedo implements KeyListener {
 					s += label.getText().charAt(i);
 			}
 			label.setText(s);
+			
 		}else if(e.getKeyCode() == KeyEvent.VK_CONTROL) {
 			isCtrlPressed = true; 
 			System.out.println("ctrl = " + isCtrlPressed);
@@ -82,8 +85,10 @@ public class _02_TextUndoRedo implements KeyListener {
 		}
 		
 		else if(isCtrlPressed){
-			if(e.getKeyCode() == KeyEvent.VK_Z) {
+			
+				if(!deletedChars.isEmpty()) {
 				label.setText(label.getText() + deletedChars.pop());
+				
 			}
 			
 			else if(e.getKeyCode() == KeyEvent.VK_C) {
