@@ -11,10 +11,10 @@ import javax.swing.JPanel;
 
 public class HangMan implements KeyListener{
 	
-	int lives;
+	int lives = 3;
 	int numWords;
 	String currentWord; 
-	JFrame frame = new JFrame();
+	JFrame frame = new JFrame("Lives: "+lives);
 	JPanel panel = new JPanel();
 	JLabel label = new JLabel();
 	Stack<String> words = new Stack<String>();
@@ -30,23 +30,27 @@ public class HangMan implements KeyListener{
 		for (int i = 0; i < numWords; i++) {
 			words.push(Utilities.readRandomLineFromFile("dictionary.txt"));
 		}
-			currentWord = words.pop();
-			for (int j = 0; j < currentWord.length(); j++) {
-				label.setText(label.getText()+"_");
-			}
-			
+			popNextWord();
 	}
 	
 	void setup() {
 		frame.add(panel);
 		panel.add(label);
-		panel.addKeyListener(this);
+		frame.addKeyListener(this);
+		frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
 		
 	}
 
-	
+	void popNextWord() {
+		label.setText("");
+		currentWord = words.pop();
+			System.out.println(currentWord);
+			for (int j = 0; j < currentWord.length(); j++) {
+				label.setText(label.getText()+"_");
+			}
+	}
 	
 	
 	
@@ -59,10 +63,48 @@ public class HangMan implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		String s = "";
-		if(currentWord.contains(s+e.getKeyChar())) {
-			
+		boolean removeLife = true;
+		String newLabel = label.getText(); 
+		System.out.println("key pressed");
+		StringBuilder sb = new StringBuilder(newLabel); 
+		if(currentWord.contains(""+e.getKeyChar())) {
+			for (int i = 0; i < currentWord.length(); i++) {
+				if(currentWord.charAt(i) == e.getKeyChar()) {
+				sb.setCharAt(i, e.getKeyChar());
+				removeLife = false;
+				}
+			}
 		}
+		if(removeLife) {
+			lives --; 
+		}
+		removeLife = true;
+		label.setText(sb.toString());
+		if(!label.getText().contains("_")) {
+			if(words.size() > 0) {
+			popNextWord();
+			}else {
+				if(JOptionPane.showInputDialog("You win! Do you want to make a new game? (yes/no").equals("yes")) {
+					lives = 3;
+					run();
+				}else{
+					System.exit(0);
+				}
+			}
+		}
+		
+		if(lives <= 0) {
+			if(JOptionPane.showInputDialog("You lose! Do you want to make a new game? (yes/no").equals("yes")) {
+				words.clear();
+				lives = 3;
+				run();
+			}else{
+				System.exit(0);
+			}
+		}
+		
+		frame.setTitle("Lives: "+lives);
+		
 	}
 
 	@Override
