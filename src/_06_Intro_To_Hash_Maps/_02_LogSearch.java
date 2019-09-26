@@ -100,3 +100,4 @@ public class _02_LogSearch implements ActionListener {
 	
 	
 }
+
