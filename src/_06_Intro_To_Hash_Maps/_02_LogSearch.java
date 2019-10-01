@@ -24,7 +24,7 @@ public class _02_LogSearch implements ActionListener {
 	 * 				Otherwise, tell the user that that entry does not exist.
 	 * 
 	 * Button 3: View List
-	 * 				When this button is clicked, display the entire list in a message dialog in the following format:
+     * 				When this button is clicked, display the entire list in a message dialog in the following format:
 	 * 				ID: 123  Name: Harry Howard
 	 * 				ID: 245  Name: Polly Powers
 	 * 				ID: 433  Name: Oliver Ortega
@@ -71,10 +71,21 @@ public class _02_LogSearch implements ActionListener {
 		log.put(2, "test2");
 		log.put(4, "test3");
 		log.put(5, "test4");
-		log.put(6, "test5");
 		log.put(256, "test6");
+		log.put(246, "test7");
+		log.put(6, "test5");
 	}
-
+	
+	int getHighestKey() {
+		int high = Integer.MIN_VALUE;
+		for (Integer key : log.keySet()) {
+			if(key >= high) {
+				high = key;
+			}
+		}
+		return high;
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -84,7 +95,7 @@ public class _02_LogSearch implements ActionListener {
 			JOptionPane.showMessageDialog(null, log.get(Integer.parseInt(JOptionPane.showInputDialog("Insert ID Number"))));
 		}else if(e.getSource().equals(view)) {
 			String s = "";
-			for (int i = 0; i <= log.size(); i++) {
+			for (int i = 0; i <= getHighestKey(); i++) {
 				System.out.println(i);
 				if(log.keySet().contains(i)) {
 				s = s + "ID: " + i + " Name: " + log.get(i) + "\n";
